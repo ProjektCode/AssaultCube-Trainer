@@ -1,0 +1,7 @@
+﻿[*.vb]
+
+# IDE0058: Expression value is never used
+dotnet_diagnostic.IDE0058.severity = silent
+
+# BC42105: Function doesn't return a value on all code paths
+dotnet_diagnostic.BC42105.severity = silent

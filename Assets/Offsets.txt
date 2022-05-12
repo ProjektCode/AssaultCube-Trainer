@@ -1,0 +1,10 @@
+bar ammo
+"ac_client.exe"+0017E0A8 140
+pistol ammo
+"ac_client.exe"+0017E0A8 12C
+akimbo ammo
+"ac_client.exe"+0017E0A8 148
+player health
+"ac_client.exe"+0017E0A8 EC
+player kevlar
+"ac_client.exe"+0017E0A8 F0
