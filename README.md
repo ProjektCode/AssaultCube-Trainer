@@ -22,3 +22,4 @@ Just download the project and compile it
 - Unlimited grenades
 - ESP
 - create a menu/tab for enemy mods(their armor, health, ammo)
+- Refreactor code(This was attempted but kept getting value is null errors. figure out why)
