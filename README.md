@@ -11,7 +11,8 @@ https://sourceforge.net/projects/actiongame/files/
 ```
 
 ## Usage
-It's as simple as checking the checkbox's to activate the cheat.
+It's as simple as checking the checkbox's to activate the cheat.  
+Just download the project and compile it
 
 ## To-Do
 - Make the Aimbot not so shitty.
