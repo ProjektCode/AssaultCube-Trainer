@@ -1,13 +1,18 @@
 ﻿Imports Memory
 Imports System.Reflection
+Imports System.Runtime.InteropServices
 Imports System.Threading
 
 Public Class Form1
     ReadOnly m As New Mem
     Dim isAimbot As Boolean = False
-
+    Dim viewY As Single
 
     Private Shared ReadOnly PlayerBase As String = "ac_client.exe+0x109B74"
+
+    <DllImport("user32.dll")>
+    Shared Function GetAsyncKeyState(ByVal vKey As System.Windows.Forms.Keys) As Short
+    End Function
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text += $" {Assembly.GetExecutingAssembly().GetName().Version}"
@@ -15,7 +20,7 @@ Public Class Form1
         Dim pid As Integer = m.GetProcIdFromName("ac_client")
         If pid > 0 Then
             m.OpenProcess(pid)
-
+            Timer1.Start()
         Else
             MessageBox.Show("Please open Assault Cube before starting the trainer.")
             Environment.Exit(0)
@@ -76,6 +81,22 @@ Public Class Form1
         m.WriteMemory(Offsets.Kevlar, "int", "100")
     End Sub
 #End Region
+
+    Private Sub cbNoRecoil_CheckedChanged(sender As Object, e As EventArgs) Handles cbNoRecoil.CheckedChanged
+        If cbNoRecoil.Checked = True Then
+            timerNoRecoil.Start()
+        Else
+            timerNoRecoil.Stop()
+        End If
+    End Sub
+
+    Private Sub timerNoRecoil_Tick(sender As Object, e As EventArgs) Handles timerNoRecoil.Tick
+        If GetAsyncKeyState(Keys.LButton) < 0 Then
+            m.WriteMemory(Offsets.ViewAngleY, "float", viewY)
+        Else
+            viewY = m.ReadFloat(Offsets.ViewAngleY).ToString()
+        End If
+    End Sub
 
 #Region "Aimbot"
     Private Sub Aimbot()
@@ -153,6 +174,11 @@ Public Class Form1
 
         Return Players
     End Function
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        Label1.Text = m.ReadFloat(Offsets.ViewAngleY).ToString()
+
+    End Sub
 #End Region
 
 End Class

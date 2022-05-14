@@ -26,11 +26,15 @@ Partial Class Form1
         Me.cbAmmo = New System.Windows.Forms.CheckBox()
         Me.timerAmmo = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.cbNoRecoil = New System.Windows.Forms.CheckBox()
         Me.cbAimBot = New System.Windows.Forms.CheckBox()
         Me.cbKevlar = New System.Windows.Forms.CheckBox()
         Me.cbGodMode = New System.Windows.Forms.CheckBox()
         Me.timerGod = New System.Windows.Forms.Timer(Me.components)
         Me.timerKevlar = New System.Windows.Forms.Timer(Me.components)
+        Me.timerNoRecoil = New System.Windows.Forms.Timer(Me.components)
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -52,6 +56,7 @@ Partial Class Form1
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Crimson
+        Me.Panel1.Controls.Add(Me.cbNoRecoil)
         Me.Panel1.Controls.Add(Me.cbAimBot)
         Me.Panel1.Controls.Add(Me.cbKevlar)
         Me.Panel1.Controls.Add(Me.cbGodMode)
@@ -60,6 +65,17 @@ Partial Class Form1
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(200, 302)
         Me.Panel1.TabIndex = 1
+        '
+        'cbNoRecoil
+        '
+        Me.cbNoRecoil.AutoSize = True
+        Me.cbNoRecoil.ForeColor = System.Drawing.Color.White
+        Me.cbNoRecoil.Location = New System.Drawing.Point(5, 105)
+        Me.cbNoRecoil.Name = "cbNoRecoil"
+        Me.cbNoRecoil.Size = New System.Drawing.Size(77, 19)
+        Me.cbNoRecoil.TabIndex = 4
+        Me.cbNoRecoil.Text = "No Recoil"
+        Me.cbNoRecoil.UseVisualStyleBackColor = True
         '
         'cbAimBot
         '
@@ -102,17 +118,35 @@ Partial Class Form1
         '
         Me.timerKevlar.Interval = 10
         '
+        'timerNoRecoil
+        '
+        Me.timerNoRecoil.Interval = 10
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(310, 46)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(41, 15)
+        Me.Label1.TabIndex = 2
+        Me.Label1.Text = "Label1"
+        '
+        'Timer1
+        '
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Panel1)
         Me.Name = "Form1"
         Me.Text = "Projekt Assualt Cube Trainer"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -124,4 +158,8 @@ Partial Class Form1
     Friend WithEvents cbKevlar As CheckBox
     Friend WithEvents timerKevlar As Timer
     Friend WithEvents cbAimBot As CheckBox
+    Friend WithEvents cbNoRecoil As CheckBox
+    Friend WithEvents timerNoRecoil As Timer
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Timer1 As Timer
 End Class

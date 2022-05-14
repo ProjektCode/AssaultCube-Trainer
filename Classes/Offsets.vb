@@ -12,6 +12,7 @@
     Public Shared ReadOnly Z As String = $"{PlayerBase},0x3C"
     Public Shared ReadOnly ViewAngleY = $"{PlayerBase},0x44"
     Public Shared ReadOnly ViewAngleX = $"{PlayerBase},0x40"
+    Public Shared ReadOnly Roll = $"{PlayerBase},0x48"
 
     Public Shared ReadOnly HealthOffset As String = ",0xF8"
     Public Shared ReadOnly xOffset As String = ",0x34"
