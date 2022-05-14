@@ -26,11 +26,11 @@ Partial Class Form1
         Me.cbAmmo = New System.Windows.Forms.CheckBox()
         Me.timerAmmo = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.cbAimBot = New System.Windows.Forms.CheckBox()
         Me.cbKevlar = New System.Windows.Forms.CheckBox()
         Me.cbGodMode = New System.Windows.Forms.CheckBox()
         Me.timerGod = New System.Windows.Forms.Timer(Me.components)
         Me.timerKevlar = New System.Windows.Forms.Timer(Me.components)
-        Me.cbAimBot = New System.Windows.Forms.CheckBox()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -61,6 +61,17 @@ Partial Class Form1
         Me.Panel1.Size = New System.Drawing.Size(200, 302)
         Me.Panel1.TabIndex = 1
         '
+        'cbAimBot
+        '
+        Me.cbAimBot.AutoSize = True
+        Me.cbAimBot.ForeColor = System.Drawing.Color.White
+        Me.cbAimBot.Location = New System.Drawing.Point(5, 80)
+        Me.cbAimBot.Name = "cbAimBot"
+        Me.cbAimBot.Size = New System.Drawing.Size(66, 19)
+        Me.cbAimBot.TabIndex = 3
+        Me.cbAimBot.Text = "AimBot"
+        Me.cbAimBot.UseVisualStyleBackColor = True
+        '
         'cbKevlar
         '
         Me.cbKevlar.AutoSize = True
@@ -90,17 +101,6 @@ Partial Class Form1
         'timerKevlar
         '
         Me.timerKevlar.Interval = 10
-        '
-        'cbAimBot
-        '
-        Me.cbAimBot.AutoSize = True
-        Me.cbAimBot.ForeColor = System.Drawing.Color.White
-        Me.cbAimBot.Location = New System.Drawing.Point(5, 80)
-        Me.cbAimBot.Name = "cbAimBot"
-        Me.cbAimBot.Size = New System.Drawing.Size(66, 19)
-        Me.cbAimBot.TabIndex = 3
-        Me.cbAimBot.Text = "AimBot"
-        Me.cbAimBot.UseVisualStyleBackColor = True
         '
         'Form1
         '

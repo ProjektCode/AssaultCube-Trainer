@@ -4,14 +4,10 @@ Imports System.Threading
 
 Public Class Form1
     ReadOnly m As New Mem
-    Dim player As New Player
+    Dim isAimbot As Boolean = False
+
 
     Private Shared ReadOnly PlayerBase As String = "ac_client.exe+0x109B74"
-    Private Shared ReadOnly X As String = $"{PlayerBase},0x34"
-    Private Shared ReadOnly Y As String = $"{PlayerBase},0x38"
-    Private Shared ReadOnly Z As String = $"{PlayerBase},0x3C"
-    Private Shared ReadOnly ViewAngleY = $"{PlayerBase},0x44"
-    Private Shared ReadOnly ViewAngleX = $"{PlayerBase},0x40"
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text += $" {Assembly.GetExecutingAssembly().GetName().Version}"
@@ -19,10 +15,7 @@ Public Class Form1
         Dim pid As Integer = m.GetProcIdFromName("ac_client")
         If pid > 0 Then
             m.OpenProcess(pid)
-            Dim AB As New Thread(CType(Main(), ThreadStart)) With {
-                .IsBackground = True
-            }
-            AB.Start()
+
         Else
             MessageBox.Show("Please open Assault Cube before starting the trainer.")
             Environment.Exit(0)
@@ -57,6 +50,16 @@ Public Class Form1
             m.WriteMemory(Offsets.Kevlar, "int", "0")
         End If
     End Sub
+
+    Private Sub cbAimBot_CheckedChanged(sender As Object, e As EventArgs) Handles cbAimBot.CheckedChanged
+        If cbAimBot.Checked = True Then
+            isAimbot = True
+            Dim AB As New Thread(New ThreadStart(AddressOf Aimbot))
+            AB.Start()
+        Else
+            isAimbot = False
+        End If
+    End Sub
 #End Region
 
 #Region "Timers"
@@ -75,14 +78,24 @@ Public Class Form1
 #End Region
 
 #Region "Aimbot"
-    Public Function Main()
-        While True
-            GetLocalPlayer()
+    Private Sub Aimbot()
+        Thread.Sleep(1000)
+        Do
+            If isAimbot = True Then
+                Dim localplayer = GetLocalPlayer()
+                Dim players = GetPlayers(localplayer)
 
-            Threading.Thread.Sleep(10)
-        End While
-    End Function
+                players = players.OrderBy(Function(x) x.Magnitude).ToList()
+                If players.Count <> 0 Then
+                    Aim(localplayer, players(0))
+                End If
 
+                Thread.Sleep(100)
+            Else
+                Exit Do
+            End If
+        Loop
+    End Sub
     Private Function GetLocalPlayer() As Player
         Dim player As New Player With {
             .X = m.ReadFloat(Offsets.X),
@@ -91,6 +104,54 @@ Public Class Form1
         }
 
         Return player
+    End Function
+
+    Public Shared Function GetMag(p As Player, e As Player) As Single
+        Dim mag As Single
+
+        mag = Convert.ToSingle(Math.Sqrt(Math.Pow(e.X - p.X, 2) + Math.Pow(e.Y - p.Y, 2) + Math.Pow(e.Z - p.Z, 2)))
+
+        Return mag
+    End Function
+
+    Private Sub Aim(p As Player, e As Player)
+        Dim deltaX As Single = e.X - p.X
+        Dim deltaY As Single = e.Y - p.Y
+
+        Dim viewX As Single = CSng(Math.Atan2(deltaY, deltaX) * 180 / Math.PI) + 90
+
+        Dim deltaZ = e.Z - p.Z
+
+        Dim distance As Double = Math.Sqrt(deltaX * deltaX + deltaY * deltaY)
+
+        Dim viewY As Single = CSng(Math.Atan2(deltaZ, distance) * 180 / Math.PI)
+
+        m.WriteMemory(Offsets.ViewAngleX, "float", viewX.ToString())
+        m.WriteMemory(Offsets.ViewAngleY, "float", viewY.ToString())
+
+    End Sub
+
+    Private Function GetPlayers(local As Player) As List(Of Player)
+        Dim Players As New List(Of Player)
+
+        For i As Integer = 0 To 45
+            Dim currentStr = Offsets.EntityList + ",0x" + (i * &H4).ToString("X")
+            Dim player As New Player With {
+                .X = m.ReadFloat(currentStr + Offsets.xOffset),
+                .Y = m.ReadFloat(currentStr + Offsets.yOffset),
+                .Z = m.ReadFloat(currentStr + Offsets.zOffset),
+                .Health = m.ReadInt(currentStr + Offsets.HealthOffset)
+            }
+            player.Magnitude = GetMag(local, player)
+
+
+            If player.Health > 0 And player.Health < 102 Then
+                Players.Add(player)
+            End If
+
+        Next i
+
+        Return Players
     End Function
 #End Region
 

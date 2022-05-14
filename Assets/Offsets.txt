@@ -1,3 +1,4 @@
+Addresses + Offsets for v1.3
 bar ammo
 "ac_client.exe"+0017E0A8 140
 pistol ammo
