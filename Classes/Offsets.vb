@@ -19,5 +19,4 @@
     Public Shared ReadOnly yOffset As String = ",0x38"
     Public Shared ReadOnly zOffset As String = ",0x3C"
 
-
 End Class

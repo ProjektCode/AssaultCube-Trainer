@@ -8,10 +8,8 @@ Public Class Form1
     Dim isAimbot As Boolean = False
     Dim viewY As Single
 
-    Private Shared ReadOnly PlayerBase As String = "ac_client.exe+0x109B74"
-
     <DllImport("user32.dll")>
-    Shared Function GetAsyncKeyState(ByVal vKey As System.Windows.Forms.Keys) As Short
+    Public Shared Function GetAsyncKeyState(ByVal vKey As System.Windows.Forms.Keys) As Short
     End Function
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -65,6 +63,14 @@ Public Class Form1
             isAimbot = False
         End If
     End Sub
+
+    Private Sub cbNoRecoil_CheckedChanged(sender As Object, e As EventArgs) Handles cbNoRecoil.CheckedChanged
+        If cbNoRecoil.Checked = True Then
+            timerNoRecoil.Start()
+        Else
+            timerNoRecoil.Stop()
+        End If
+    End Sub
 #End Region
 
 #Region "Timers"
@@ -80,15 +86,6 @@ Public Class Form1
     Private Sub timerKevlar_Tick(sender As Object, e As EventArgs) Handles timerKevlar.Tick
         m.WriteMemory(Offsets.Kevlar, "int", "100")
     End Sub
-#End Region
-
-    Private Sub cbNoRecoil_CheckedChanged(sender As Object, e As EventArgs) Handles cbNoRecoil.CheckedChanged
-        If cbNoRecoil.Checked = True Then
-            timerNoRecoil.Start()
-        Else
-            timerNoRecoil.Stop()
-        End If
-    End Sub
 
     Private Sub timerNoRecoil_Tick(sender As Object, e As EventArgs) Handles timerNoRecoil.Tick
         If GetAsyncKeyState(Keys.LButton) < 0 Then
@@ -97,6 +94,11 @@ Public Class Form1
             viewY = m.ReadFloat(Offsets.ViewAngleY).ToString()
         End If
     End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        Label1.Text = m.ReadFloat(Offsets.ViewAngleY).ToString()
+    End Sub
+#End Region
 
 #Region "Aimbot"
     Private Sub Aimbot()
@@ -174,11 +176,6 @@ Public Class Form1
 
         Return Players
     End Function
-
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        Label1.Text = m.ReadFloat(Offsets.ViewAngleY).ToString()
-
-    End Sub
 #End Region
 
 End Class
