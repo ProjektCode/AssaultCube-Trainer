@@ -1,6 +1,6 @@
 ﻿NotInheritable Class Offsets
 
-    Private Shared ReadOnly PlayerBase As String = "ac_client.exe+0x109B74"
+    Public Shared ReadOnly PlayerBase As String = "ac_client.exe+0x109B74"
     Public Shared ReadOnly EntityList As String = "ac_client.exe+0x110D90"
     Public Shared ReadOnly BarAmmo As String = $"{PlayerBase},0x150"
     Public Shared ReadOnly PistolAmmo As String = $"{PlayerBase},0x13C"
